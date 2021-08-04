@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'slots.dart';
+
 void main() => runApp(new MyApp());
 
 
@@ -30,6 +32,7 @@ class _HomeState extends State<Home> {
   TextEditingController pincodecontroller = TextEditingController();
   TextEditingController daycontroller = TextEditingController();
   String dropdownValue = '01';
+  List slots = [];
   //-------------------------------------------------
 
   fetchslots()async{
@@ -43,7 +46,10 @@ class _HomeState extends State<Home> {
         '%2F2021'))
         .then((value) {
           Map result = jsonDecode(value.body);
-          print(result);
+          setState(() {
+            slots = result['sessions'];
+          });
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Slot(slots: slots,)));
     });
 
   }
